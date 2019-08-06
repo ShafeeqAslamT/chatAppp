@@ -1,0 +1,165 @@
+<div class="container-fluid h-100">
+  <div class="row justify-content-center h-100">
+    <div class="col-md-4 col-xl-3 chat">
+      <div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+          <div class="input-group">
+            <input type="text" placeholder="Search..." name="" class="form-control search">
+            <div class="input-group-prepend">
+              <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body contacts_body">
+          <ul class="contacts">
+            <li *ngFor="let i of users" [ngClass]="{'active': user.id==i.id}" (click)="selectUser(i)"
+              style="cursor: pointer">
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img [src]="i.image" class="rounded-circle user_img">
+                  <span class="online_icon" [ngClass]="{offline: !i.online}"></span>
+                </div>
+                <div class="user_info">
+                  <span>{{i.name}}</span>
+                  <p>{{i.name}} {{i.description}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    </div>
+    <div class="col-md-8 col-xl-6 chat">
+      <div class="card">
+        <div class="card-header msg_head">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img [src]="user.image" class="rounded-circle user_img">
+              <span class="online_icon" [ngClass]="{offline: !user.online}"></span>
+            </div>
+            <div class="user_info">
+              <span>Chat with {{user.name}}</span>
+              <p>1767 Messages</p>
+            </div>
+            <div class="video_cam">
+              <span><i class="fas fa-video"></i></span>
+              <span><i class="fas fa-phone"></i></span>
+            </div>
+          </div>
+          <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+          <div class="action_menu">
+            <ul>
+              <li><i class="fas fa-user-circle"></i> View profile</li>
+              <li><i class="fas fa-users"></i> Add to close friends</li>
+              <li><i class="fas fa-plus"></i> Add to group</li>
+              <li><i class="fas fa-ban"></i> Block</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="msgBody" class="card-body msg_card_body">
+          <div *ngIf="!loading">
+            <div *ngFor="let i of chats" [ngSwitch]="i.current">
+              <div *ngSwitchCase="true" class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img [src]="user.image" class="rounded-circle user_img_msg">
+                </div>
+                <div class="msg_cotainer" >
+                  <div *ngIf="i.documents[0]" [innerHTML]="imagePreview(i.documents)"></div>
+                  <div class="message_content" [innerHTML]="trimText(i.message)"></div>
+                  <span class="msg_time">{{i.time| timeAgo}}</span>
+                </div>
+              </div>
+              <div *ngSwitchDefault class="d-flex justify-content-end mb-4">
+                <div class="msg_cotainer_send">
+                    <div *ngIf="i.documents[0]" [innerHTML]="imagePreview(i.documents)"></div>
+                  <div class="message_content" [innerHTML]="trimText(i.message)"></div>
+                  <span class="msg_time_send">{{i.time|timeAgo}}</span>
+                </div>
+                <div class="img_cont_msg">
+                  <img [src]="i.image" class="rounded-circle user_img_msg">
+                </div>
+              </div>
+
+            </div>
+            <!-- <div class="d-flex justify-content-end mb-4">
+              <div class="msg_cotainer_send">
+                <div>
+                    <div class="message_content img">
+                        <img src="http://192.168.0.124:5000/files/1565071246707-photo.jpg" alt="">
+                      </div>
+                </div>
+                <div class="message_content">abc</div>
+                <span class="msg_time_send">asd</span>
+              </div>
+              <div class="img_cont_msg">
+                <img src="http://192.168.0.124:5000/files/1565071246707-photo.jpg"
+                  class="rounded-circle user_img_msg">
+              </div>
+            </div> -->
+          </div>
+
+
+
+        </div>
+        <input hidden id="photo" type="file" #uploader (change)="uploadFile($event)" />
+
+        <div class="card-footer">
+          <div class="attachment" *ngIf="showAttachment">
+            <ul>
+              <li class="image" (click)="uploader.click()">
+                <i class="fas fa-image"></i>
+              </li>
+              <li class="doc">
+                <i class="fas fa-file"></i>
+              </li>
+
+            </ul>
+          </div>
+          <div class="input-group">
+            <div class="input-group-append" (click)="attachmentShow()">
+              <span class="input-group-text attach_btn" [ngClass]="{active: showAttachment}"><i
+                  class="fas fa-paperclip"></i></span>
+            </div>
+            <textarea name="" [(ngModel)]="model.message" class="form-control type_msg" (keydown)="keyDown($event)"
+              placeholder="Type your message..."></textarea>
+            <div class="input-group-append">
+              <span (click)="sendChat()" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview" *ngIf="showPreview">
+          <table style="width: 100%;height: 100%;">
+            <tr style="height: 50px;">
+              <td>
+                <header class="card-header msg_head">
+                  Preview
+                </header>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div style="height: 100%" class="container">
+                  <div style="height: 350px; width: 500px; margin: 0 auto;" *ngIf="previewData.url">
+                    <img style="height: 100%;width: 100%;" [src]="previewData.url" alt="">
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <!-- <tr style="height: 100px;">
+              <td>
+                <footer style="height: 100%">
+                  <input type="text" >
+                  <button class="btn" (click)="uploadImage()" >Send</button>
+                </footer>
+              </td>
+            </tr> -->
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

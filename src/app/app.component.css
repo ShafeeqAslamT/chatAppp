@@ -1,0 +1,56 @@
+.attachment {
+  position: absolute;
+  bottom: 80px;
+  background: #ffffffb0;
+  width: 120px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.attachment ul {
+  list-style: none;
+  padding: 0;
+}
+
+.attachment li {
+  display: block;
+  float: left;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 50px;
+  text-align: center;
+  padding-top: 8px;
+  font-size: 25px;
+  color: white;
+}
+
+.attachment li.image {
+  background: rgb(0, 6, 83);
+  background: linear-gradient(16deg, rgba(0, 6, 83, 1) 0%, rgba(40, 16, 112, 1) 49%, rgba(140, 0, 154, 1) 100%);
+}
+
+.attachment li.doc {
+  background: rgb(98, 12, 111);
+  background: linear-gradient(16deg, rgba(98, 12, 111, 1) 0%, rgba(64, 16, 112, 1) 49%, rgba(140, 0, 154, 1) 100%);
+}
+
+.attachment .icon {
+  /* width: 50px;
+  height: 50px; */
+  font-size: 20px;
+}
+
+.preview {
+  position: absolute;
+  width: 100%;
+  background: #f0ffffad;
+  height: calc(97vh - 80px - 75px);
+  margin-bottom: 75px;
+  bottom: 0;
+  /* border-radius: 0px 0px 15px 15px; */
+}
+.preview .container{
+  width: 100%;
+}
