@@ -210,7 +210,7 @@ html {
 }
 .message_document.img{
   width: 330px;
-  height: 186px;
+  /* height: 186px; */
 }
 .message_document.img img{
   width: 100%;

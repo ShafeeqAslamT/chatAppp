@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
 
     // }
     const path = this.app.baseUrl + '/' + documents[0].path;
-    return '<div class="message_document img"" > <img src="' + path + '" alt=""> </div>';
+    return '<div class="message_document img"" > <img  src="' + path + '" alt=""> </div>';
   }
   checkMail(email) {
     // tslint:disable-next-line: max-line-length
